@@ -9,7 +9,7 @@ public class Transaction
     public string Category { get; private set; }
     public DateOnly TransactionDate { get; set; }
 
-    public Transaction(decimal amount, string category = DefaultCategory, string? description = null, DateOnly? transactionDate = null)
+    public Transaction(decimal amount, string category = DefaultCategory, string? description = null, DateOnly transactionDate = default)
     {
         ValidateAmount(amount);
         Amount = amount;
@@ -18,7 +18,7 @@ public class Transaction
         Category = NormalizeCategory(category);
 
         Description = description;
-        TransactionDate = transactionDate ?? DateOnly.FromDateTime(DateTime.Today);
+        TransactionDate = transactionDate == default ? DateOnly.FromDateTime(DateTime.Today) : transactionDate;
     }
 
     private static void ValidateAmount(decimal amount)
