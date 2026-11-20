@@ -25,5 +25,16 @@ public class TransactionService
     {
         return _storage.Load(_path);
     }
+
+    public Transaction AddTransaction(decimal amount, string category, string? description, DateOnly transactionDate = default)
+    {
+        var transactions = GetAll();
+        var newExpense = new Transaction(amount, category, description, transactionDate);
+        newExpense.Id = GetNextId(transactions);
+        transactions.Add(newExpense);
+        _storage.Save(transactions, _path);
+
+        return newExpense;
+    }
 }
 
