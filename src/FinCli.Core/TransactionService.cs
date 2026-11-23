@@ -36,5 +36,11 @@ public class TransactionService
 
         return newExpense;
     }
+
+    public decimal GetTotal()
+    {
+        var transactions = GetAll();
+        return transactions.Sum(t => t.Amount);
+    }
 }
 
