@@ -42,5 +42,12 @@ public class TransactionService
         var transactions = GetAll();
         return transactions.Sum(t => t.Amount);
     }
+
+    public decimal GetTotalByCategory(string category)
+    {
+        var transactions = GetAll();
+        var categoryTransactions=transactions.Where(t => t.Category == category);
+        return categoryTransactions.Sum(t => t.Amount);
+    }
 }
 
