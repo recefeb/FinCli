@@ -1,6 +1,10 @@
 ﻿using FinCli.Core;
 
-var service = new TransactionService("deneme.json");
+string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+string appFolderPath = Path.Combine(appDataPath, "FinCli");
+Directory.CreateDirectory(appFolderPath);
+string dataFilePath = Path.Combine(appFolderPath, "transactions.json");
+var service = new TransactionService(dataFilePath);
 
 while (true)
 {
