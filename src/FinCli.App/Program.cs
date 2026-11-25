@@ -1,10 +1,13 @@
 ﻿using FinCli.Core;
+using Spectre.Console;
 
 string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 string appFolderPath = Path.Combine(appDataPath, "FinCli");
 Directory.CreateDirectory(appFolderPath);
 string dataFilePath = Path.Combine(appFolderPath, "transactions.json");
 var service = new TransactionService(dataFilePath);
+
+AnsiConsole.MarkupLine("[bold green]FinCli[/] - Personal Finance Tracker");
 
 while (true)
 {
@@ -40,7 +43,7 @@ while (true)
             }
             else
             {
-                Console.WriteLine("Invalid amount! Please try again.");
+                AnsiConsole.MarkupLine("[bold red]Invalid amount! Please try again.[/]");
             }
             break;
 
@@ -72,7 +75,7 @@ while (true)
             return;
 
         default:
-            Console.WriteLine("Invalid Choice! Please try again.");
+            AnsiConsole.MarkupLine("[bold red]Invalid Choice! Please try again.[/]");
             break;
     }
 }
