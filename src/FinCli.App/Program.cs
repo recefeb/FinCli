@@ -6,6 +6,7 @@ while (true)
 {
     Console.WriteLine("1. Show Total");
     Console.WriteLine("2. Add Expense");
+    Console.WriteLine("3. List Expenses");
     Console.WriteLine("0. Exit");
     Console.Write("Choice:  ");
     string? choice = Console.ReadLine();
@@ -21,7 +22,7 @@ while (true)
         case "2":
             Console.Write("Please enter the amount spent: ");
             string? inputAmount = Console.ReadLine();
-            if(decimal.TryParse(inputAmount,out decimal amount))
+            if (decimal.TryParse(inputAmount, out decimal amount))
             {
                 Console.Write("Enter the Category: ");
                 string category = Console.ReadLine() ?? "Other";
@@ -35,6 +36,20 @@ while (true)
             else
             {
                 Console.WriteLine("Invalid amount! Please try again.");
+            }
+            break;
+
+        case "3":
+            var expenses = service.GetAll();
+            if (expenses.Count == 0)
+            {
+                Console.WriteLine("No expense yet.");
+                break;
+            }
+
+            foreach (var expense in expenses)
+            {
+                Console.WriteLine($"Id:{expense.Id}, Amount:{expense.Amount}, Category:{expense.Category}, Description:{expense.Description}, Date:{expense.TransactionDate}");
             }
             break;
 
