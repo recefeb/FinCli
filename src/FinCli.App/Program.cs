@@ -29,23 +29,20 @@ while (true)
 
 
         case "Add Expense":
-            Console.Write("Please enter the amount spent: ");
-            string? inputAmount = Console.ReadLine();
-            if (decimal.TryParse(inputAmount, out decimal amount))
-            {
-                Console.Write("Enter the Category: ");
-                string category = Console.ReadLine() ?? "Other";
+            decimal amount = AnsiConsole.Prompt(
+                new TextPrompt<decimal>("Amount:")
+                .Validate(value => value > 0, "[bold red]Amount must be greater than zero.[/]"));
 
-                Console.Write("Enter the Description: ");
-                string? description = Console.ReadLine();
+            string category = AnsiConsole.Prompt(
+                new TextPrompt<string>("Category:")
+                .DefaultValue("Other"));
 
-                var newExpense = service.AddTransaction(amount, category, description);
-                Console.WriteLine($"Transaction Id: {newExpense.Id}");
-            }
-            else
-            {
-                AnsiConsole.MarkupLine("[bold red]Invalid amount! Please try again.[/]");
-            }
+            string description = AnsiConsole.Prompt(
+                new TextPrompt<string>("Description:")
+                .AllowEmpty());
+
+            var newExpense = service.AddTransaction(amount, category, description);
+            Console.WriteLine($"Transaction Id: {newExpense.Id}");
             break;
 
         case "List Expenses":
