@@ -1,5 +1,6 @@
 ﻿using FinCli.Core;
 using Spectre.Console;
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 string appFolderPath = Path.Combine(appDataPath, "FinCli");
@@ -29,7 +30,8 @@ while (true)
             decimal result = service.GetTotal();
             var totalPanel = new Panel($"Total: {result}")
                 .Header("Total")
-                .BorderColor(Color.Green);
+                .BorderColor(Color.Green)
+                .Border(BoxBorder.Rounded);
 
             AnsiConsole.Write(totalPanel);
             break;
@@ -61,8 +63,9 @@ while (true)
             }
 
             var table = new Table();
+            table.Border(TableBorder.Rounded);
             table.AddColumn("ID");
-            table.AddColumn("AMOUNT");
+            table.AddColumn(new TableColumn("AMOUNT").RightAligned());
             table.AddColumn("CATEGORY");
             table.AddColumn("DESCRIPTION");
             table.AddColumn("DATE");
@@ -82,7 +85,8 @@ while (true)
             decimal monthlyTotal = service.GetTotalByMonth(year, month);
             var monthlySummaryPanel = new Panel($"Total for {year}/{month}: {monthlyTotal}")
                 .Header("Monthly Summary")
-                .BorderColor(Color.Blue);
+                .BorderColor(Color.Blue)
+                .Border(BoxBorder.Rounded);
 
             AnsiConsole.Write(monthlySummaryPanel);
             break;
