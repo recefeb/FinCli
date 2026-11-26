@@ -11,23 +11,24 @@ AnsiConsole.MarkupLine("[bold green]FinCli[/] - Personal Finance Tracker");
 
 while (true)
 {
-    Console.WriteLine("1. Show Total");
-    Console.WriteLine("2. Add Expense");
-    Console.WriteLine("3. List Expenses");
-    Console.WriteLine("4. Monthly Summary");
-    Console.WriteLine("0. Exit");
-    Console.Write("Choice:  ");
-    string? choice = Console.ReadLine();
+    string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("What would you like to do?")
+                .AddChoices("Show Total", "Add Expense", "List Expenses", "Monthly Summary", "Exit"));
 
     switch (choice)
     {
-        case "1":
+        case "Show Total":
             decimal result = service.GetTotal();
-            Console.WriteLine($"Total: {result}");
+            var totalPanel = new Panel($"Total: {result}")
+                .Header("Total")
+                .BorderColor(Color.Green);
+
+            AnsiConsole.Write(totalPanel);
             break;
 
 
-        case "2":
+        case "Add Expense":
             Console.Write("Please enter the amount spent: ");
             string? inputAmount = Console.ReadLine();
             if (decimal.TryParse(inputAmount, out decimal amount))
@@ -47,7 +48,7 @@ while (true)
             }
             break;
 
-        case "3":
+        case "List Expenses":
             var expenses = service.GetAll();
             if (expenses.Count == 0)
             {
@@ -70,21 +71,20 @@ while (true)
             AnsiConsole.Write(table);
             break;
 
-        case "4":
+        case "Monthly Summary":
             int year = DateTime.Today.Year;
             int month = DateTime.Today.Month;
 
             decimal monthlyTotal = service.GetTotalByMonth(year, month);
+            var monthlySummaryPanel = new Panel($"Total for {year}/{month}: {monthlyTotal}")
+                .Header("Monthly Summary")
+                .BorderColor(Color.Blue);
 
-            Console.WriteLine($"Total for {year}/{month}: {monthlyTotal}");
+            AnsiConsole.Write(monthlySummaryPanel);
             break;
 
-        case "0":
+        case "Exit":
             Console.WriteLine("Exiting the FinCli GoodBye!..");
             return;
-
-        default:
-            AnsiConsole.MarkupLine("[bold red]Invalid Choice! Please try again.[/]");
-            break;
     }
 }
