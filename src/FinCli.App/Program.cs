@@ -1,5 +1,6 @@
 ﻿using FinCli.Core;
 using Spectre.Console;
+
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -17,6 +18,8 @@ AnsiConsole.Write(
 
 AnsiConsole.MarkupLine("[grey]Personal Finance Tracker[/]");
 
+Console.WriteLine();
+
 while (true)
 {
     string choice = AnsiConsole.Prompt(
@@ -28,12 +31,13 @@ while (true)
     {
         case "Show Total":
             decimal result = service.GetTotal();
-            var totalPanel = new Panel($"Total: {result}")
+            var totalPanel = new Panel($"Total: {result:C2}")
                 .Header("Total")
                 .BorderColor(Color.Green)
                 .Border(BoxBorder.Rounded);
 
             AnsiConsole.Write(totalPanel);
+            Console.WriteLine();
             break;
 
 
@@ -51,7 +55,8 @@ while (true)
                 .AllowEmpty());
 
             var newExpense = service.AddTransaction(amount, category, description);
-            Console.WriteLine($"Transaction Id: {newExpense.Id}");
+            AnsiConsole.MarkupLine($"[green]Expense added (Id: {newExpense.Id})[/]");
+            Console.WriteLine();
             break;
 
         case "List Expenses":
@@ -59,6 +64,7 @@ while (true)
             if (expenses.Count == 0)
             {
                 Console.WriteLine("No expenses yet.");
+                Console.WriteLine();
                 break;
             }
 
@@ -72,10 +78,11 @@ while (true)
 
             foreach (var expense in expenses)
             {
-                table.AddRow(expense.Id.ToString(), expense.Amount.ToString(), Markup.Escape(expense.Category), Markup.Escape(expense.Description ?? ""), expense.TransactionDate.ToString());
+                table.AddRow(expense.Id.ToString(), expense.Amount.ToString("C2"), Markup.Escape(expense.Category), Markup.Escape(expense.Description ?? ""), expense.TransactionDate.ToString());
             }
 
             AnsiConsole.Write(table);
+            Console.WriteLine();
             break;
 
         case "Monthly Summary":
@@ -83,12 +90,13 @@ while (true)
             int month = DateTime.Today.Month;
 
             decimal monthlyTotal = service.GetTotalByMonth(year, month);
-            var monthlySummaryPanel = new Panel($"Total for {year}/{month}: {monthlyTotal}")
+            var monthlySummaryPanel = new Panel($"Total for {year}/{month}: {monthlyTotal:C2}")
                 .Header("Monthly Summary")
                 .BorderColor(Color.Blue)
                 .Border(BoxBorder.Rounded);
 
             AnsiConsole.Write(monthlySummaryPanel);
+            Console.WriteLine();
             break;
 
         case "Exit":
