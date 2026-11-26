@@ -55,10 +55,19 @@ while (true)
                 break;
             }
 
+            var table = new Table();
+            table.AddColumn("ID");
+            table.AddColumn("AMOUNT");
+            table.AddColumn("CATEGORY");
+            table.AddColumn("DESCRIPTION");
+            table.AddColumn("DATE");
+
             foreach (var expense in expenses)
             {
-                Console.WriteLine($"Id:{expense.Id}, Amount:{expense.Amount}, Category:{expense.Category}, Description:{expense.Description}, Date:{expense.TransactionDate}");
+                table.AddRow(expense.Id.ToString(), expense.Amount.ToString(), Markup.Escape(expense.Category), Markup.Escape(expense.Description ?? ""), expense.TransactionDate.ToString());
             }
+
+            AnsiConsole.Write(table);
             break;
 
         case "4":
