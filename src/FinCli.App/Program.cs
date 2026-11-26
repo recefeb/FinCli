@@ -7,8 +7,11 @@ Directory.CreateDirectory(appFolderPath);
 string dataFilePath = Path.Combine(appFolderPath, "transactions.json");
 var service = new TransactionService(dataFilePath);
 
+string fontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "AnsiShadow.flf");
+var font = FigletFont.Load(fontPath);
+
 AnsiConsole.Write(
-    new FigletText("FinCli")
+    new FigletText(font, "FinCli")
     .Color(Color.Green));
 
 AnsiConsole.MarkupLine("[grey]Personal Finance Tracker[/]");
