@@ -7,7 +7,11 @@ Directory.CreateDirectory(appFolderPath);
 string dataFilePath = Path.Combine(appFolderPath, "transactions.json");
 var service = new TransactionService(dataFilePath);
 
-AnsiConsole.MarkupLine("[bold green]FinCli[/] - Personal Finance Tracker");
+AnsiConsole.Write(
+    new FigletText("FinCli")
+    .Color(Color.Green));
+
+AnsiConsole.MarkupLine("[grey]Personal Finance Tracker[/]");
 
 while (true)
 {
