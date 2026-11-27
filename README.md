@@ -3,7 +3,7 @@
 A personal finance tracker for the terminal, built with C# and .NET 10.
 Add expenses, list them in a table, and see your monthly total. Data is stored as JSON.
 
-![FinCli screenshot](docs/screenshot.png)
+![FinCli screenshot](docs/screenshot.png?v=2)
 
 ## Features
 
