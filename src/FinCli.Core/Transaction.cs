@@ -36,7 +36,7 @@ public class Transaction
             category = DefaultCategory;
         }
 
-        return category;
+        return category.Trim();
     }
 
     public void UpdateAmount(decimal newAmount)

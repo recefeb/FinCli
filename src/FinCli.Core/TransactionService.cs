@@ -46,7 +46,7 @@ public class TransactionService
     public decimal GetTotalByCategory(string category)
     {
         var transactions = GetAll();
-        var categoryTransactions = transactions.Where(t => t.Category == category);
+        var categoryTransactions = transactions.Where(t => string.Equals(t.Category, category.Trim(), StringComparison.OrdinalIgnoreCase));
         return categoryTransactions.Sum(t => t.Amount);
     }
 
@@ -62,10 +62,11 @@ public class TransactionService
         var transactions = GetAll();
 
         return transactions
-            .GroupBy(t => t.Category)
+            .GroupBy(t => t.Category, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(
                 group => group.Key,
-                group => group.Sum(t => t.Amount));
+                group => group.Sum(t => t.Amount),
+                StringComparer.OrdinalIgnoreCase);
     }
 }
 

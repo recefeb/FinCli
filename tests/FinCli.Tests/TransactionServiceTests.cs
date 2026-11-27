@@ -71,4 +71,26 @@ public class TransactionServiceTests : IDisposable
 
         Assert.Empty(totals);
     }
+
+    [Fact]
+    public void GetTotalsByCategory_DifferentCasing_GroupsTogether()
+    {
+        _service.AddTransaction(100m, "Food", null);
+        _service.AddTransaction(40m, "food", null);
+        _service.AddTransaction(10m, "FOOD ", null);
+
+        var totals = _service.GetTotalsByCategory();
+
+        Assert.Single(totals);
+        Assert.Equal(150m, totals["Food"]);
+    }
+
+    [Fact]
+    public void GetTotalByCategory_DifferentCasing_ReturnsSum()
+    {
+        _service.AddTransaction(100m, "Food", null);
+        _service.AddTransaction(40m, "food", null);
+
+        Assert.Equal(140m, _service.GetTotalByCategory("FOOD"));
+    }
 }

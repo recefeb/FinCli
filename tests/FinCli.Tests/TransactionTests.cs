@@ -32,4 +32,20 @@ public class TransactionTests
 
         Assert.Equal(0.01m, transaction.Amount);
     }
+
+    [Fact]
+    public void Constructor_CategoryWithSpaces_TrimsCategory()
+    {
+        var transaction = new Transaction(100m, "  Food  ");
+
+        Assert.Equal("Food", transaction.Category);
+    }
+
+    [Fact]
+    public void Constructor_WhitespaceCategory_UsesOther()
+    {
+        var transaction = new Transaction(100m, "   ");
+
+        Assert.Equal("Other", transaction.Category);
+    }
 }
