@@ -10,6 +10,7 @@ Add expenses, list them in a table, and see your monthly total. Data is stored a
 - Add expenses with amount, category and description
 - List all expenses in a styled table
 - Show the total and the total of the current month
+- Show spending by category as a bar chart
 - Data is saved to a JSON file between runs
 - Terminal UI built with [Spectre.Console](https://spectreconsole.net/)
 - Unit tests with xUnit
@@ -56,6 +57,7 @@ Harcama ekleyebilir, tablo halinde listeleyebilir ve aylık toplamı görebilirs
 - Tutar, kategori ve açıklama ile harcama ekleme
 - Tüm harcamaları şık bir tabloda listeleme
 - Toplam ve içinde bulunulan ayın toplamını gösterme
+- Harcamaları kategoriye göre bar grafiğinde gösterme
 - Veriler çalıştırmalar arasında JSON dosyasında saklanır
 - [Spectre.Console](https://spectreconsole.net/) ile terminal arayüzü
 - xUnit ile birim testleri
