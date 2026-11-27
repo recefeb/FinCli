@@ -3,4 +3,7 @@
     <Project Path="src/FinCli.App/FinCli.App.csproj" />
     <Project Path="src/FinCli.Core/FinCli.Core.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FinCli.Tests/FinCli.Tests.csproj" />
+  </Folder>
 </Solution>
