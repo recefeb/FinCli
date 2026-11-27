@@ -127,23 +127,32 @@ while (true)
                 break;
             }
 
-            var categoryExpenseChart = new BarChart()
-                .Width(100)
-                .UseValueFormatter(value => value.ToString("C2"));
-
-            Color[] barColors = { accent, sage };
+            var maxTotal = categoryTotals.Values.Max();
+            const int maxBarLength = 30;
+            string[] barColorHexes = { accentHex, sageHex };
             int colorIndex = 0;
+
+            var chartTable = new Table()
+                .Border(TableBorder.None)
+                .HideHeaders();
+            chartTable.AddColumn(new TableColumn("Category").RightAligned());
+            chartTable.AddColumn("Bar");
+            chartTable.AddColumn(new TableColumn("Amount").RightAligned());
 
             foreach (var entry in categoryTotals.OrderByDescending(entry => entry.Value))
             {
-                categoryExpenseChart.AddItem(
+                int barLength = Math.Max(1, (int)Math.Round((double)(entry.Value / maxTotal) * maxBarLength));
+                string barColorHex = barColorHexes[colorIndex % barColorHexes.Length];
+
+                chartTable.AddRow(
                     Markup.Escape(entry.Key),
-                    (double)entry.Value,
-                    barColors[colorIndex % barColors.Length]);
+                    $"[{barColorHex}]{new string('█', barLength)}[/]",
+                    $"[{barColorHex}]{entry.Value:C2}[/]");
+
                 colorIndex++;
             }
 
-            var categoryPanel = new Panel(categoryExpenseChart)
+            var categoryPanel = new Panel(chartTable)
                 .Header($"[bold {accentHex}]Total by category[/]")
                 .BorderColor(accent)
                 .Border(BoxBorder.Rounded)
