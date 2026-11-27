@@ -34,7 +34,8 @@ dotnet test
 
 ## Where is my data?
 
-Your expenses are saved to `%APPDATA%\FinCli\transactions.json`.
+On Windows, your expenses are saved to `%APPDATA%\FinCli\transactions.json`.
+On other systems, .NET chooses the folder (usually `~/.config/FinCli/`).
 This file is outside the repository, so it is never committed.
 
 ## Project structure
@@ -79,7 +80,8 @@ dotnet test
 
 ## Verilerim nerede?
 
-Harcamaların `%APPDATA%\FinCli\transactions.json` dosyasına kaydedilir.
+Windows'ta harcamaların `%APPDATA%\FinCli\transactions.json` dosyasına kaydedilir.
+Diğer sistemlerde klasörü .NET seçer (genellikle `~/.config/FinCli/`).
 Bu dosya repo dışındadır, bu yüzden commit'e asla girmez.
 
 ## Proje yapısı
