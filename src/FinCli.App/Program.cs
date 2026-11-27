@@ -1,5 +1,6 @@
 ﻿using FinCli.Core;
 using Spectre.Console;
+using System.Globalization;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -54,7 +55,8 @@ while (true)
         case "Add Expense":
             decimal amount = AnsiConsole.Prompt(
                 new TextPrompt<decimal>($"[{mutedHex}]Amount:[/]")
-                .Validate(value => value > 0, $"[bold {dangerHex}]Amount must be greater than zero.[/]"));
+                .Validate(value => value > 0, $"[bold {dangerHex}]Amount must be greater than zero.[/]")
+                .Culture(CultureInfo.CurrentCulture));
 
             string category = AnsiConsole.Prompt(
                 new TextPrompt<string>($"[{mutedHex}]Category:[/]")
