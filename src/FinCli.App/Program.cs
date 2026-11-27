@@ -36,7 +36,7 @@ while (true)
         new SelectionPrompt<string>()
         .Title($"[{mutedHex}]What would you like to do?[/]")
         .HighlightStyle(new Style(foreground: accent))
-        .AddChoices("Show Total", "Add Expense", "List Expenses", "Monthly Summary", "Exit"));
+        .AddChoices("Show Total", "Add Expense", "List Expenses", "Monthly Summary", "Category Chart", "Exit"));
 
     switch (choice)
     {
@@ -114,6 +114,42 @@ while (true)
                 .Border(BoxBorder.Rounded);
 
             AnsiConsole.Write(monthlySummaryPanel);
+            Console.WriteLine();
+            break;
+
+        case "Category Chart":
+            var categoryTotals = service.GetTotalsByCategory();
+
+            if (categoryTotals.Count == 0)
+            {
+                AnsiConsole.MarkupLine($"[{mutedHex}]No expenses yet.[/]");
+                Console.WriteLine();
+                break;
+            }
+
+            var categoryExpenseChart = new BarChart()
+                .Width(100)
+                .UseValueFormatter(value => value.ToString("C2"));
+
+            Color[] barColors = { accent, sage };
+            int colorIndex = 0;
+
+            foreach (var entry in categoryTotals.OrderByDescending(entry => entry.Value))
+            {
+                categoryExpenseChart.AddItem(
+                    Markup.Escape(entry.Key),
+                    (double)entry.Value,
+                    barColors[colorIndex % barColors.Length]);
+                colorIndex++;
+            }
+
+            var categoryPanel = new Panel(categoryExpenseChart)
+                .Header($"[bold {accentHex}]Total by category[/]")
+                .BorderColor(accent)
+                .Border(BoxBorder.Rounded)
+                .Padding(2, 1);
+
+            AnsiConsole.Write(categoryPanel);
             Console.WriteLine();
             break;
 
