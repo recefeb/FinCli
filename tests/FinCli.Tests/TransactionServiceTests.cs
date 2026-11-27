@@ -49,4 +49,26 @@ public class TransactionServiceTests : IDisposable
 
         Assert.Equal(100m, _service.GetTotalByMonth(2026, 11));
     }
+
+    [Fact]
+    public void GetTotalsByCategory_MultipleCategories_ReturnsTotalPerCategory()
+    {
+        _service.AddTransaction(100m, "Food", null);
+        _service.AddTransaction(40m, "Food", null);
+        _service.AddTransaction(25m, "Transport", null);
+
+        var totals = _service.GetTotalsByCategory();
+
+        Assert.Equal(2, totals.Count);
+        Assert.Equal(140m, totals["Food"]);
+        Assert.Equal(25m, totals["Transport"]);
+    }
+
+    [Fact]
+    public void GetTotalsByCategory_NoTransactions_ReturnsEmpty()
+    {
+        var totals = _service.GetTotalsByCategory();
+
+        Assert.Empty(totals);
+    }
 }

@@ -56,5 +56,16 @@ public class TransactionService
         var matchingDateTransactions = transactions.Where(t => t.TransactionDate.Year == year && t.TransactionDate.Month == month);
         return matchingDateTransactions.Sum(t => t.Amount);
     }
+
+    public Dictionary<string, decimal> GetTotalsByCategory()
+    {
+        var transactions = GetAll();
+
+        return transactions
+            .GroupBy(t => t.Category)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Sum(t => t.Amount));
+    }
 }
 
