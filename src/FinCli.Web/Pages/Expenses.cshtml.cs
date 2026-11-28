@@ -14,7 +14,7 @@ public class ExpensesModel : PageModel
     public decimal Amount { get; set; }
 
     [BindProperty]
-    public string Category { get; set; } = "";
+    public string? Category { get; set; }
 
     [BindProperty]
     public string? Description { get; set; }
@@ -41,7 +41,7 @@ public class ExpensesModel : PageModel
             return Page();
         }
 
-        _service.AddTransaction(Amount, Category, Description);
+        _service.AddTransaction(Amount, Category ?? "", Description);
 
         return RedirectToPage();
     }
