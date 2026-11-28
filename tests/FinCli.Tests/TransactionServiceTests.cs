@@ -117,4 +117,24 @@ public class TransactionServiceTests : IDisposable
         Assert.False(result);
         Assert.Single(_service.GetAll());
     }
+
+    [Fact]
+    public void AddTransaction_DifferentCasing_UsesExistingCategoryName()
+    {
+        _service.AddTransaction(10m, "Food", null);
+
+        var added = _service.AddTransaction(5m, "food", null);
+
+        Assert.Equal("Food", added.Category);
+
+        Assert.All(_service.GetAll(), t => Assert.Equal("Food", t.Category));
+    }
+
+    [Fact]
+    public void AddTransaction_NewCategory_KeepsTypedName()
+    {
+        var added = _service.AddTransaction(5m, "gym", null);
+
+        Assert.Equal("gym", added.Category);
+    }
 }
