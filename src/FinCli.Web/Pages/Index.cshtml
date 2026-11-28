@@ -43,12 +43,22 @@
             const labels = @Json.Serialize(Model.CategoryTotals.OrderByDescending(e => e.Value).Select(e => e.Key));
             const values = @Json.Serialize(Model.CategoryTotals.OrderByDescending(e => e.Value).Select(e => e.Value));
 
-            new Chart(canvas, {
+            const textColor = () => getComputedStyle(document.body).color;
+
+            const chart = new Chart(canvas, {
                 type: 'doughnut',
                 data: {
                     labels: labels,
                     datasets: [{ data: values }]
+                },
+                options: {
+                    color: textColor()
                 }
+            });
+
+            document.addEventListener('themechange', () => {
+                chart.options.color = textColor();
+                chart.update();
             });
         }
     </script>
