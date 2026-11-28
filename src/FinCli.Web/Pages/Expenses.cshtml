@@ -6,6 +6,23 @@
 
 <h1>Expenses</h1>
 
+<form method="post" class="row g-2 mb-4">
+	<div class="col-sm-3">
+		<input name="Amount" type="text" inputmode="decimal" class="form-control" placeholder="Amount (e.g. 85,50)" required />
+	</div>
+	<div class="col-sm-3">
+		<input name="Category" class="form-control" placeholder="Category" />
+	</div>
+	<div class="col-sm-4">
+		<input name="Description" class="form-control" placeholder="Description" />
+	</div>
+	<div class="col-sm-2">
+		<button type="submit" class="btn btn-primary w-100">Add</button>
+	</div>
+</form>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
 @if (Model.Items.Count == 0)
 {
 	<p>No expenses yet.</p>
@@ -23,7 +40,7 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach(var item in Model.Items)
+			@foreach (var item in Model.Items)
 			{
 				<tr>
 					<td>@item.Id</td>
