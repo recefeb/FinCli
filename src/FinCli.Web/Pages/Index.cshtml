@@ -1,76 +1,82 @@
 ﻿@page
 @model IndexModel
 @{
-	ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home page";
+
+    string[] palette = { "#e0a646", "#93b47c", "#c8604f", "#8f897d", "#d4c19a", "#6f8f9a" };
+    var sorted = Model.CategoryTotals.OrderByDescending(e => e.Value).ToList();
 }
 
 <h1 class="visually-hidden">FinCli</h1>
 
 <div class="fc-banner mb-4">
-	<pre class="fc-banner-art" aria-hidden="true">███████╗██╗███╗   ██╗ ██████╗██╗     ██╗
+    <pre class="fc-banner-art" aria-hidden="true">███████╗██╗███╗   ██╗ ██████╗██╗     ██╗
 ██╔════╝██║████╗  ██║██╔════╝██║     ██║
 █████╗  ██║██╔██╗ ██║██║     ██║     ██║
 ██╔══╝  ██║██║╚██╗██║██║     ██║     ██║
 ██║     ██║██║ ╚████║╚██████╗███████╗██║
 ╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚═╝</pre>
-	<p class="fc-banner-tagline">Personal Finance Tracker</p>
-	<p class="fc-banner-total">Total spent: @Model.Total.ToString("C2")</p>
+    <p class="fc-banner-tagline">Personal Finance Tracker</p>
+    <p class="fc-banner-total">Total spent: @Model.Total.ToString("C2")</p>
 </div>
 
-@if (Model.CategoryTotals.Count > 0)
+@if (sorted.Count > 0)
 {
-	<h2 class="h4 mt-4">Spending by category</h2>
+    <h2 class="h4 mt-4">Spending by category</h2>
 
-	@foreach (var entry in Model.CategoryTotals.OrderByDescending(e => e.Value))
-	{
-		var percent = (double)(entry.Value / Model.Total) * 100;
+    @for (var i = 0; i < sorted.Count; i++)
+    {
+        var entry = sorted[i];
+        var percent = (double)(entry.Value / Model.Total) * 100;
 
-		<div class="mb-3">
-			<div class="d-flex justify-content-between">
-				<span>@entry.Key</span>
-				<span>@entry.Value.ToString("C2") (@(percent.ToString("0"))%)</span>
-			</div>
-			<div class="progress">
-				<div class="progress-bar" role="progressbar"
-					 style="width: @(percent.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%"></div>
-			</div>
-		</div>
-	}
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>@entry.Key</span>
+                <span>@entry.Value.ToString("C2") (@(percent.ToString("0"))%)</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar"
+                     style="width: @(percent.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%; background-color: @palette[i % palette.Length]"></div>
+            </div>
+        </div>
+    }
 
-	<div class="mx-auto mt-4" style="max-width: 360px;">
-		<canvas id="categoryChart"></canvas>
-	</div>
+    <div class="mx-auto mt-4" style="max-width: 360px;">
+        <canvas id="categoryChart"></canvas>
+    </div>
 }
 
 @section Scripts {
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script>
-		const canvas = document.getElementById('categoryChart');
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const canvas = document.getElementById('categoryChart');
 
-		if (canvas) {
-			const labels = @Json.Serialize(Model.CategoryTotals.OrderByDescending(e => e.Value).Select(e => e.Key));
-			const values = @Json.Serialize(Model.CategoryTotals.OrderByDescending(e => e.Value).Select(e => e.Value));
+        if (canvas) {
+            const labels = @Json.Serialize(sorted.Select(e => e.Key));
+            const values = @Json.Serialize(sorted.Select(e => e.Value));
+            const colors = @Json.Serialize(palette);
 
-			const textColor = () => getComputedStyle(document.body).color;
+            const textColor = () => getComputedStyle(document.body).color;
 
-			const chart = new Chart(canvas, {
-				type: 'doughnut',
-				data: {
-					datasets: [{
-						data: values,
-						backgroundColor: ['#e0a646', '#93b47c', '#c8604f', '#8f897d', '#d4c19a', '#6f8f9a'],
-						borderWidth: 0
-					}]
-				},
-				options: {
-					color: textColor()
-				}
-			});
+            const chart = new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    color: textColor()
+                }
+            });
 
-			document.addEventListener('themechange', () => {
-				chart.options.color = textColor();
-				chart.update();
-			});
-		}
-	</script>
+            document.addEventListener('themechange', () => {
+                chart.options.color = textColor();
+                chart.update();
+            });
+        }
+    </script>
 }

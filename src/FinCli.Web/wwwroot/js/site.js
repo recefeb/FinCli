@@ -5,7 +5,13 @@ function applyTheme(theme) {
     document.documentElement.setAttribute('data-bs-theme', theme);
 
     if (toggleButton) {
-        toggleButton.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        const label = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+
+        toggleButton.innerHTML = theme === 'dark'
+            ? '<i class="bi bi-sun"></i>'
+            : '<i class="bi bi-moon-stars"></i>';
+        toggleButton.setAttribute('aria-label', label);
+        toggleButton.title = label;
     }
 
     document.dispatchEvent(new Event('themechange'));
