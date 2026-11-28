@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/FinCli.App/FinCli.App.csproj" />
     <Project Path="src/FinCli.Core/FinCli.Core.csproj" />
+    <Project Path="src/FinCli.Web/FinCli.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FinCli.Tests/FinCli.Tests.csproj" />
