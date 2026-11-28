@@ -29,3 +29,106 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+:root {
+    --fc-accent: #e0a646;
+    --fc-sage: #93b47c;
+    --fc-muted: #8f897d;
+    --fc-danger: #c8604f;
+}
+
+[data-bs-theme="light"] {
+    --bs-body-bg: #f4efe4;
+    --bs-body-bg-rgb: 244, 239, 228;
+    --bs-body-color: #24221d;
+    --bs-body-color-rgb: 36, 34, 29;
+    --bs-emphasis-color: #1a1814;
+    --bs-emphasis-color-rgb: 26, 24, 20;
+    --bs-secondary-bg: #e6dec9;
+    --bs-border-color: #ddd3bc;
+}
+
+[data-bs-theme="dark"] {
+    --bs-body-bg: #1b1a17;
+    --bs-body-bg-rgb: 27, 26, 23;
+    --bs-body-color: #e8e4da;
+    --bs-secondary-bg: #2a2823;
+    --bs-border-color: #3a372f;
+}
+
+.btn-primary {
+    --bs-btn-color: #1b1a17;
+    --bs-btn-bg: var(--fc-accent);
+    --bs-btn-border-color: var(--fc-accent);
+    --bs-btn-hover-color: #1b1a17;
+    --bs-btn-hover-bg: #eab85c;
+    --bs-btn-hover-border-color: #eab85c;
+    --bs-btn-active-color: #1b1a17;
+    --bs-btn-active-bg: #c98f2f;
+    --bs-btn-active-border-color: #c98f2f;
+    --bs-btn-focus-shadow-rgb: 224, 166, 70;
+}
+
+.btn-outline-danger {
+    --bs-btn-color: var(--fc-danger);
+    --bs-btn-border-color: var(--fc-danger);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--fc-danger);
+    --bs-btn-hover-border-color: var(--fc-danger);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--fc-danger);
+    --bs-btn-active-border-color: var(--fc-danger);
+}
+
+.progress {
+    --bs-progress-bar-bg: var(--fc-accent);
+}
+
+.form-control:focus {
+    border-color: var(--fc-accent);
+    box-shadow: 0 0 0 0.25rem rgba(224, 166, 70, 0.25);
+}
+
+[data-bs-theme="light"] .form-control {
+    background-color: #fbf8f1;
+}
+
+:root {
+    --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3, .navbar-brand {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+}
+
+.fc-banner {
+    background: #1b1a17;
+    border: 1px solid #3a372f;
+    border-radius: 12px;
+    padding: 1.75rem 1rem 1.25rem;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.fc-banner-art {
+    display: inline-block;
+    margin: 0;
+    text-align: left;
+    color: var(--fc-accent);
+    font-family: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+    font-size: clamp(0.5rem, 2.2vw, 1.1rem);
+    line-height: 1.05;
+}
+
+.fc-banner-tagline {
+    color: var(--fc-muted);
+    margin: 0.75rem 0 0;
+    letter-spacing: 0.08em;
+}
+
+.fc-banner-total {
+    color: #e8e4da;
+    font-size: 1.15rem;
+    margin: 0.5rem 0 0;
+}
