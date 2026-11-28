@@ -45,4 +45,11 @@ public class ExpensesModel : PageModel
 
         return RedirectToPage();
     }
+
+    public IActionResult OnPostDelete(int id)
+    {
+        _service.DeleteTransaction(id);
+
+        return RedirectToPage();
+    }
 }

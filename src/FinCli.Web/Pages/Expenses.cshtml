@@ -37,6 +37,7 @@ else
 				<th>Category</th>
 				<th>Description</th>
 				<th class="text-end">Amount</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -48,6 +49,11 @@ else
 					<td>@item.Category</td>
 					<td>@item.Description</td>
 					<td class="text-end">@item.Amount.ToString("C2")</td>
+					<td class="text-end">
+						<form method="post" asp-page-handler="Delete" asp-route-id="@item.Id">
+							<button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+						</form>
+					</td>
 				</tr>
 			}
 		</tbody>
