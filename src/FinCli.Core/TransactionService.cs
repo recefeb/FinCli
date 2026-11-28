@@ -68,5 +68,21 @@ public class TransactionService
                 group => group.Sum(t => t.Amount),
                 StringComparer.OrdinalIgnoreCase);
     }
+
+    public bool DeleteTransaction(int id)
+    {
+        var transactions = GetAll();
+        var target = transactions.FirstOrDefault(t => t.Id == id);
+
+        if (target == null)
+        {
+            return false;
+        }
+
+        transactions.Remove(target);
+        _storage.Save(transactions, _path);
+
+        return true;
+    }
 }
 
