@@ -30,6 +30,14 @@ public class TransactionService
     {
         var transactions = GetAll();
         var newExpense = new Transaction(amount, category, description, transactionDate);
+
+        var existing = transactions.FirstOrDefault(t => string.Equals(t.Category, newExpense.Category, StringComparison.OrdinalIgnoreCase));
+
+        if (existing != null)
+        {
+            newExpense.UpdateCategory(existing.Category);
+        }
+
         newExpense.Id = GetNextId(transactions);
         transactions.Add(newExpense);
         _storage.Save(transactions, _path);
