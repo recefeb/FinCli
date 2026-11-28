@@ -10,6 +10,8 @@ public class IndexModel : PageModel
 
     public decimal Total { get; set; }
 
+    public Dictionary<string, decimal> CategoryTotals { get; set; } = new();
+
     public IndexModel(TransactionService service)
     {
         _service = service;
@@ -18,5 +20,6 @@ public class IndexModel : PageModel
     public void OnGet()
     {
         Total = _service.GetTotal();
+        CategoryTotals = _service.GetTotalsByCategory();
     }
 }

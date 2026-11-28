@@ -8,3 +8,24 @@
     <h1 class="display-4">FinCli</h1>
     <p>Total spent: @Model.Total.ToString("C2")</p>
 </div>
+
+@if (Model.CategoryTotals.Count > 0)
+{
+    <h2 class="h4 mt-4">Spending by category</h2>
+
+    @foreach (var entry in Model.CategoryTotals.OrderByDescending(e => e.Value))
+    {
+        var percent = (double)(entry.Value / Model.Total) * 100;
+
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>@entry.Key</span>
+                <span>@entry.Value.ToString("C2") (@(percent.ToString("0"))%)</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar"
+                     style="width: @(percent.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%"></div>
+            </div>
+        </div>
+    }
+}
