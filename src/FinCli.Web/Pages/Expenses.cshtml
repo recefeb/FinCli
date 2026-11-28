@@ -1,0 +1,38 @@
+﻿@page
+@model ExpensesModel
+@{
+	ViewData["Title"] = "Expenses";
+}
+
+<h1>Expenses</h1>
+
+@if (Model.Items.Count == 0)
+{
+	<p>No expenses yet.</p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Date</th>
+				<th>Category</th>
+				<th>Description</th>
+				<th class="text-end">Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var item in Model.Items)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.TransactionDate</td>
+					<td>@item.Category</td>
+					<td>@item.Description</td>
+					<td class="text-end">@item.Amount.ToString("C2")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
