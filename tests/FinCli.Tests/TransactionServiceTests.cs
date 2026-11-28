@@ -93,4 +93,28 @@ public class TransactionServiceTests : IDisposable
 
         Assert.Equal(140m, _service.GetTotalByCategory("FOOD"));
     }
+
+    [Fact]
+    public void DeleteTransaction_ExistingId_RemovesItAndReturnsTrue()
+    {
+        var first = _service.AddTransaction(10m, "Food", null);
+        var second = _service.AddTransaction(20m, "Transport", null);
+
+        var result = _service.DeleteTransaction(first.Id);
+
+        Assert.True(result);
+        var remaining = Assert.Single(_service.GetAll());
+        Assert.Equal(second.Id, remaining.Id);
+    }
+
+    [Fact]
+    public void DeleteTransaction_UnknownId_ReturnsFalseAndKeepsData()
+    {
+        _service.AddTransaction(10m, "Food", null);
+
+        var result = _service.DeleteTransaction(999);
+
+        Assert.False(result);
+        Assert.Single(_service.GetAll());
+    }
 }
