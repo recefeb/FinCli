@@ -25,7 +25,7 @@ public class ExpensesModel : PageModel
     }
     public void OnGet()
     {
-        Items = _service.GetAll();
+        Items = LoadItems();
     }
 
     public IActionResult OnPost()
@@ -37,7 +37,7 @@ public class ExpensesModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            Items = _service.GetAll();
+            Items = LoadItems();
             return Page();
         }
 
@@ -52,4 +52,13 @@ public class ExpensesModel : PageModel
 
         return RedirectToPage();
     }
+
+    private List<Transaction> LoadItems()
+    {
+        return _service.GetAll()
+            .OrderByDescending(t => t.TransactionDate)
+            .ThenByDescending(t => t.Id)
+            .ToList();
+    }
+
 }
